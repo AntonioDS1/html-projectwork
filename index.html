@@ -1,0 +1,963 @@
+<!DOCTYPE html> <!-- Dice al browser che si sta usando html5, per prevenire i comportamenti vecchi e poco prevedibili -->
+<html lang="it"> <!-- Indica che si sta usando la lingua italiana per la pagina, aiutando gli screen reader a usare la lingua corretta -->
+<head> <!-- Apre la sezione head-->
+    <meta charset="UTF-8"> <!-- Imposta il carattere a UTF-8-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Fondamentale per rendere la pagina web responsive, cioè adatta anche agli schermi piccoli come quelli degli smartphone-->
+    <title>Report di Sostenibilità - A2A Life Company</title> <!-- Il titolo della pagina, visualizzato quando il file viene aperto-->
+    
+    <style>
+/* CSS */
+body {  /* Seleziona il corpo della pagina, per poter attribuire il seguente stile*/
+  font-family: Arial, sans-serif; /* Imposta il carattere dei testi come Arial, o Sans-serif se Arial non è disponibile*/
+  margin: 0; /* Imposta il margine del corpo a zero*/
+  padding: 0; /* Imposta la distanza tra il corpo e il suo margine a zero*/
+  background-color: #f8f9fa; /* Imposta il colore base di sfondo del corpo*/
+  color: #333; /* Imposta il colore base del testo del corpo*/
+  overflow-x: hidden; /* Taglia fuori la parte strabordata a destra su schermi piccoli*/
+}
+
+html { /* Seleziona l'intero documento*/
+  height: 100%; /* Fa in modo che l'altezza del contenuto sia sempre uguale alla finestra del browser*/
+  margin: 0; /* Cancella il margine predefinito assegnato dal browser, per non avere spazi inutili*/
+  overflow-x: hidden; /* Taglia fuori la parte strabordata a destra*/
+}
+
+.contenitore-pagina { /* Seleziona l'elemento con classe "contenitore-pagina"*/
+  display: flex; /* Applica la visualizzazione flex, per usare le proprietà di flexbox*/
+  flex-direction: column; /* Visualizza gli elementi flex in colonna*/
+  min-height: 100vh; /* Imposta l'altezza minima, uguale a quella della finestra del browser*/
+}
+
+main { /* Seleziona l'elemento main, che contiene il contenuto principale della pagina*/
+  flex: 1; /* Fa in modo che il contenuto del main occupi tutto lo spazio possibile*/
+}
+
+
+/* Header */
+header { /* Seleziona l'header, per applicargli le seguenti proprietà*/
+  position: fixed; /* Fa in modo che l'header abbia una posizione fissa all'interno della pagina, rendendolo "immune" allo scroll, anche se sparisce verso l'alto quando si scrolla verso il basso. Quindi serve più che altro a non fargli "occupare" un contenitore*/
+  width: 98%; /* Imposta la larghezza dell'header a 98%, per occupare tutta la pagina con la larghezza giusta*/
+  background: linear-gradient(130deg, #0a94e0, #0a94e0, #48D1CC
+/*#4169E1*/); /* Imposta il colore dell'header, con un linear-gradient per fargli avere linearmente colori diversi, dall'azzurro al blu royal*/
+  color: white; /* Imposta il colore del testo*/
+  padding: 10px 20px; /* Imposta la distanza tra gli elementi dell'header e il suo margine*/
+  display: flex; /* Visualizza gli elementi in flex*/
+  align-items: center; /* Usando flex, allinea gli elementi al centro sull'asse y*/
+  justify-content: space-between; /* Usando flex, sull'asse x, lo spazio tra gli elementi è suddiviso equamente*/
+  z-index:10; /* Z-index è una proprietà che fa in modo che un elemento si sovrapponga agli altri tanto più alto è il suo valore*/
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Applica un'animazione fluida ai cambiamenti di posizione (transform) e trasparenza (opacity) in 0.3 secondi, con un effetto di accelerazione morbido (ease)*/
+}
+
+.logo { /* Seleziona l'elemento con la classe "logo"*/
+  display: flex; /* Visualizza in flex*/
+  align-items: center; /* Mette gli elementi al centro sull'asse y*/
+}
+
+.logo img { /* Seleziona l'elemento img dell'elemento con classe "logo"*/
+  height: 70px; /* Imposta l'altezza dell'img a 70px*/
+  margin-right: 20px; /* Crea un margine a destra dell'immagine del logo di 20px*/
+}
+
+.logo h1 { /* Seleziona l'elemento h1 dell'elemento con classe "logo"*/
+  font-size: 1.5rem; /* Imposta la grandezza del carattere dell'elemento h1 del logo a 1.5rem, cioé 1.5 volte la dimensione del font base del browser*/
+  font-weight: bold; /* Mette l'h1 del logo in grassetto*/
+}
+
+nav { /* Seleziona l'elemento nav*/
+  display: flex; /* Visualizza in flex*/
+  align-items: center; /* Posiziona gli elementi al centro sull'asse y*/
+  gap: 20px; /* Imposta la distanza tra gli elementi del nav a 20px*/
+}
+
+nav a { /* Seleziona gli anchor tag (elementi con link) dell'elemento nav*/
+  color: white; /* Imposta il colore degli elementi*/
+  text-decoration: none; /* Rimuove la decorazione del testo, ad esempio la sottolineatura tipica dei link*/
+  font-weight: 500; /* Imposta il "grassetto" degli elementi a 500*/
+  transition: color 0.2s; /* Quando il mouse va sopra l'elemento, il colore cambierà in 0.2 secondi*/
+}
+
+nav a:hover { /* Comportamento degli anchor tag quando il mouse ci va sopra*/
+  color: #00bcd4; /* Cambiano colore*/
+}
+
+.contenitore-ricerca { /* Seleziona l'elemento con classe "contenitore-ricerca"*/
+  position: relative; /* Imposta la posizione relativa*/
+}
+
+.contenitore-ricerca input { /* Seleziona l'elemento input dell'elemento con classe "contenitore-ricerca"*/
+  padding: 8px 30px 8px 10px; /* Imposta le varie distanze dell'imput, dal margine dell'elemento*/
+  border-radius: 5px; /* Imposta il raggio degli angoli, in modo tale che l'elemento sia leggermente circolare*/
+  border: none; /* Niente bordo*/
+  outline: none; /* Disattiva il bordo di evidenziazione blu che appare quando l'input è selezionato*/
+  font-size: 1rem; /* Imposta la dimensione del testo*/
+}
+
+.contenitore-ricerca button { /* Seleziona il bottone del contenitore-ricerca */
+  position: absolute; /* Imposta la posizione ad assoluta, in modo tale che sia posizionato rispetto al contenitore-ricerca che è in posizione relativa */
+  right: -3px; /* Sposta il bottone 3px verso l'esterno a destra rispetto al bordo del contenitore */
+  bottom: -7px; /* Sposta il bottone 7px verso il basso rispetto al bordo inferiore */
+  top: -7px; /* Sposta il bottone 7px verso l'alto rispetto al bordo superiore */
+  background: #2EBB2E; /* Imposta il colore di sfondo del bottone*/
+  border: none; /* Rimuove il bordo predefinito del bottone */
+  color: white; /* Imposta il colore del testo su bianco */
+  padding: 0 10px; /* Imposta padding verticale a 0 e orizzontale a 10px, per dare respiro al testo (o all'icona) */
+  border-radius: 0 5px 5px 0; /* Arrotonda solo gli angoli destro superiore e inferiore (destra), per farlo combaciare col bordo dell'input */
+  cursor: pointer; /* Cambia il cursore in una manina al passaggio, indicando che il bottone è cliccabile */
+  transition: background 0.3s; /* Quando il mouse ci va sopra la transizione durerà 0.3 secondi*/
+}
+
+.contenitore-ricerca button:hover { /* Come si comporta il bottone quando il mouse ci va sopra?*/
+  background: #2E8B57; /* Cambia colore.*/
+}
+
+.bottone-profilo { /* Seleziona l'elemento con classe "bottone-profilo", in genere un pulsante per il profilo utente */
+  background: #2EBB2E; /* Imposta il colore di sfondo*/
+  color: white; /* Imposta il colore del testo su bianco */
+  border: none; /* Rimuove il bordo predefinito */
+  padding: 8px 12px; /* Imposta spazi interni: 8px sopra/sotto e 12px a destra/sinistra */
+  border-radius: 5px; /* Arrotonda leggermente gli angoli per un aspetto più morbido e moderno */
+  cursor: pointer; /* Cambia il cursore in una manina al passaggio, per indicare che è cliccabile */
+  font-weight: bold; /* Rende il testo in grassetto per evidenziare il pulsante */
+  transition: background 0.3s; /*  Quando il mouse ci va sopra la transizione durerà 0.3 secondi*/
+}
+
+.bottone-profilo:hover { /* Come si comporta il bottone quando il mouse ci va sopra?*/
+  background: #2E8B57; /* Cambia colore.*/
+}
+
+@media (max-width: 1102px) { /* Usa una "Media query", per applicare le seguenti propietà quando lo schermo è largo da 1102px in giù*/
+  header { /* Seleziona l'elemento header */
+    flex-wrap: wrap; /* Permette agli elementi figli di andare a capo se non c'è abbastanza spazio in orizzontale */
+    justify-content: center; /* Centra gli elementi sull'asse x*/
+    position: fixed; /* Mantiene l'header fisso in alto anche durante lo scroll, anche se come gia detto, scompare quando si scrolla verso il basso, utile per non fargli occupare spazio in alto (utile per mobile o tablet) */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Applica una transizione fluida ai cambiamenti di posizione e opacità */
+  }
+
+  nav { /* Seleziona l'elemento nav*/
+    flex-wrap: wrap; /* Permette agli elementi figli di andare a capo se non c'è abbastanza spazio in orizzontale*/
+    justify-content: center; /* Centra gli elementi sull'asse x*/
+  }
+
+  .headerNav { /* Seleziona l'elemento con classe "headerNav"*/
+    margin-left: 30px; /* E imposta il suo margine a sinistra di 30px*/
+  }
+
+  .contenitore-ricerca { /* Seleziona l'elemento con classe "contenitore-ricerca"*/
+    margin-top: 10px; /* E imposta il suo margine in alto a 10px*/
+    text-align: center; /* Allinea il suo testo al centro*/
+  }
+
+  .contenitore-ricerca input { /* Seleziona l'elemento input del contenitore-ricerca*/
+    width: 60%; /* Imposta la larghezza a 60%*/
+  }
+
+  .contenitore-ricerca button { /* Seleziona l'elemento button del contenitore-ricerca */
+    position: absolute; /* Imposta la posizione assoluta, per farlo posizionare rispetto alla posizione relativa del contenitore-ricerca */
+    right: -3px; /* Sposta il bottone 3px verso l'esterno a destra, per allinearlo visivamente all'input */
+    top: -7px; /* Sposta il bottone 7px verso l'alto, per farlo combaciare perfettamente con l'input */
+    bottom: -7px; /* Sposta il bottone 7px verso il basso, per allinearlo completamente in altezza all'input */
+    background: #2EBB2E; /* Imposta il colore di sfondo del bottone*/
+    border: none; /* Rimuove il bordo predefinito del bottone */
+    color: white; /* Imposta il colore del testo su bianco */
+    padding: 0 10px; /* Applica padding orizzontale di 10px e nessun padding verticale */
+    border-radius: 0 5px 5px 0; /* Arrotonda solo gli angoli destro superiore e inferiore per creare continuità con l'input */
+    cursor: pointer; /* Cambia il cursore in una manina per indicare che è cliccabile */
+  }
+
+
+  .bottone-profilo { /* Seleziona il bottone con classe "bottone-profilo" */
+    position: sticky; /* Imposta la posizione sticky: l'elemento rimane "bloccato" in alto a 10px finché possibile durante lo scroll */
+    top: 10px; /* Distanza di 10px dalla parte superiore del contenitore (quando sticky entra in funzione) */
+    left: 10px; /* Distanza di 10px dalla parte sinistra (utile solo se il contenitore lo consente) */
+    margin-left: 30px; /* Aggiunge uno spazio di 30px a sinistra rispetto all'elemento precedente */
+  }
+
+
+  .colonna-piédipagina { /* Seleziona le colonne del piè di pagina (footer)*/
+    border-left: 1px solid rgba(255, 255, 255, 0.2); /* Aggiunge un bordo sinistro sottile e semi-trasparente, per separare visivamente le colonne */
+    padding-left: 30px; /* Aggiunge spazio interno a sinistra, per distanziare il contenuto dal bordo */
+    padding-right: 600px; /* Aggiunge molto spazio a destra, per far andare a capo le colonne in maniera equa*/
+    font-size: 150%; /* Aumenta la dimensione del testo del 50% rispetto alla dimensione base (es. se base è 16px, diventa 24px) */
+  }
+
+
+  .elIntro { /* Seleziona il contenitore degli elementi della intro*/
+    font-size: 50%; /* Imposta la grandezza del testo a 50%, per renderlo visibile da schermi piccoli*/
+  }
+
+}
+
+@media (max-width: 500px) { /* Usa una "Media query" per assegnare lo stile all'header su schermi meno larghi di 500px*/
+
+  .sezione-sostenibilità { /* Seleziona l'elemento con classe "sezione-sostenibilità"*/
+    width: 300px; /* Imposta la larghezza a 300px*/
+  }
+
+  .contenuto { /* Seleziona l'elemento con classe "contenuto"*/
+    width: 50%; /* Imposta la larghezza al 50%*/
+  }
+
+  .testo { /* Seleziona l'elemento con classe "testo"*/
+    font-size: 50%; /* Imposta la grandezza del testo a 50%*/
+    transform:translateX(-90px); /* Sposta il testo di 90px a sinistra*/
+  }
+  
+  .sezione-sostenibilità .contenuto .image img { /* Seleziona l'immagine dell'elemento con classe "image" del contenuto della sezione-sostenibilità*/
+    height: 300px; /* Imposta l'altezza a 300px*/
+  }
+
+  .sezione-sostenibilità .contenuto .image { /* Seleziona l'elemento con classe "image" del contenuto della sezione-sostenibilità*/
+    transform: translateX(-100px); /* Sposta l'elemento a sinistra di 100px*/
+  }
+}
+
+/* Sezione introduzione */
+.intro { /* Seleziona l'elemento con classe "intro"*/
+  height:350px; /* Imposta l'altezza a 350px*/
+  font-size:140%; /* Imposta la grandezza del testo a 140%*/
+  background-image:url('immagini/immagine-intro.png'); /* Utilizza la funzione url() per usare un indirizzo locale, andare nella cartella "immagini" e selezionare l'immagine-intro.png come sfondo dell'intro*/
+  background-size:cover; /* Fa in modo che lo sfondo occupi tutto il contenitore*/ 
+  background-position:center; /* Fissa lo sfondo al centro*/
+  color:white; /* Imposta il colore del testo della intro*/
+  padding-top:300px; /* Imposta la distanza del contenuto dal margine superiore a 300px*/
+  padding-bottom:50px; /* Imposta la distanza del contenuto dal margine inferiore a 50px*/
+  overflow:hidden; /* Fa in modo che il contenuto che straborda sia nascosto*/
+  display: flex; /* Visualizza in flex*/
+  align-items: flex-end; /* Usa flex per far partire gli elementi dal basso*/
+}
+.elIntro { /* Seleziona l'elemento con classe "elIntro"*/
+  padding-left:30px; /* Imposta la distanza dal margine a sinistra di 30px*/
+  border-left: 1px solid white; /* Imposta il bordo a sinistra di 1px, solido e bianco, per aggiungere una linea bianca a sinistra del testo e del bottone "scopri di più"*/
+  margin-left: 40px; /* Imposta il marfine a sinistra di 40px*/
+  white-space: normal; /* Permette al testo di andare a capo*/
+}
+
+.scopri-btn { /* Seleziona il pulsante "scopri di più"*/
+  background-color: white; /* Imposta il suo colore si sfondo*/
+  color: rgb(1, 58, 104); /* Imposta il colore del testo, usando rgb per impostare il valore dei colori red green blue (valori presi dalla pagina originale)*/
+  border:0px; /* Elimina il bordo nero del bottone per estetica*/
+  padding: 12px 20px; /* Imposta la distanza, 12px sopra e sotto, e 20px a destra e a sinistra*/
+  font-size: 18px; /* Testo grande 18px*/
+  font-weight: 300; /* Grassetto del testo a light*/
+  cursor: pointer; /* Il cursore diventa una manina quando ci passa sopra*/
+  display: inline-flex; /* Usa flex, ma mantiene il comportamento inline*/
+  align-items: center; /* Allinea la scritta "scopri di più" al centro del bottone*/
+  gap: 8px; /* Distanza dagli altri elementi di 8px*/
+  transition: all 0.3s ease; /* Applica una transizione di 0.3 secondi a tutte le proprietà animabili del bottone*/
+  border-radius: 30px; /* Rende il bottone mediamente circolare*/
+  position: relative; /* Imposta la posizione relativa per permettere elementi assoluti al suo interno*/
+  overflow: hidden; /* Nasconde gli elementi che escono dai bordi (utile per effetti animati interni)*/
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Aggiunge un'ombra per dare profondità al bottone*/
+}
+
+.linkScopriBtn { /* Seleziona il link con classe "linkScopriBtn"*/
+  text-decoration: none; /* Elimina la sottolineatura del link del bottone "Scopri di più"*/
+}
+
+.scopri-btn .freccia { /* Seleziona la freccia del bottone*/
+  display: inline-block; /* Fa in modo che la freccia sia accanto alla scritta*/
+  transition: transform 0.3s ease; /* Fa in modo che l'animazione duri 0.3 secondi*/
+}
+
+.scopri-btn:hover { /* Cosa succede quando il mouse va sopra al pulsante "scopri di più"?*/
+  background-color: #B0C4DE; /* Diventa più scuro*/
+  color: rgb(1, 58, 104); /* Cambia il colore del testo*/
+}
+
+.scopri-btn:hover .freccia { /* Come si comporta la freccia quando il mouse va sopra al pulsante "scopri di più"?*/
+  transform: translateX(5px); /* Si sposta di 5px a destra*/
+}
+
+.scopri-btn:active { /* Cosa succede quando il pulsante "scopri di più" viene premuto?*/
+  transform: scale(0.95); /* Diventa più piccolo di 0.05*/
+}
+
+/*Sezione testuale*/
+
+.sezione-sostenibilità { /* Seleziona l'elemento con classe "sezione-sostenibilità"*/
+  padding: 100px 20px; /* Imposta la distanza dal margine in 100px sopra e sotto, e 20px a sinistra e a destra*/
+  background: linear-gradient(135deg, #cceaff, #f2f2f2); /* Usa un linear-gradient per applicare due colori linearmente*/
+  border-radius: 40px; /* Imposta il raggio degli angoli a 40px per rendere la sezione leggermente circolare*/
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); /* Crea un'ombra alla sezione per darle profondità*/
+  max-width: 1200px; /* Larghezza massima di 1200px*/
+  margin: 80px auto; /* Imposta un margine di 80px sopra e sotto, e un margine centralizzato a sinistra e a destra, calcolato in base a max-width*/
+  overflow: hidden; /* Nasconde il contenuto strabordato*/
+}
+
+.sezione-sostenibilità .contenuto { /* Seleziona l'elemento con classe "contenuto", nell'elemento "sezione-sostenibilità"*/
+  display: flex; /* Visualizza in flex*/
+  align-items: center; /* Allinea gli elementi al centro sull'asse y*/
+  justify-content: space-between; /* Distribuisce lo spazio tra gli elementi equamente sull'asse x*/
+  flex-wrap: wrap; /* Permette agli elementi di andare a capo*/
+  gap: 40px; /* Imposta la distanza tra gli elementi di 40px*/
+  transform: translateY(40px); /* Fa in modo che le animazioni si spostino di 40px in alto*/
+  animation: fadeInUp 1s ease forwards; /* Fa in modo che le animazioni durino un secondo*/
+}
+
+.sezione-sostenibilità .testo { /* Seleziona l'elemento con classe "testo" nell'elemento "sezione-sostenibilità*/
+  flex: 1 1 500px; /* Fa in modo che l'elemento cresca, si stringa, e abbia una grandezza base di 500px*/
+}
+
+.sezione-sostenibilità h2 { /* Seleziona l'elemento h2 di "sezione-sostenibilità" */
+  font-size: 2.8rem; /* Imposta la dimensione del testo a 2.8 rem (circa 44.8px se 1rem = 16px)*/
+  color: #003366; /* Imposta il colore del testo con un blu scuro (codice esadecimale) */
+  margin-bottom: 20px; /* Aggiunge uno spazio di 20px sotto al titolo, per separarlo dal contenuto successivo */
+}
+
+.glow { /* Imposta le seguenti proprietà alle scritte con la classe "glow"*/
+  color: #00c2ff; /* Colore*/
+  text-shadow: 0 0 8px rgba(0, 194, 255, 0.6); /* Ombra azzurra, per far sembrare che brillino*/
+}
+
+.sezione-sostenibilità p { /* Seleziona i paragrafi dell'elemento "sezione-sostenibilità" */
+  font-size: 1.25rem; /* Imposta la dimensione del testo a 1.25 rem (circa 20px)*/
+  color: #333; /* Imposta il colore del testo su un grigio scuro (quasi nero), più morbido per gli occhi rispetto al nero puro */
+  line-height: 1.7; /* Imposta l'altezza della riga al 170% del font-size, migliorando la leggibilità e lo spazio tra le righe */
+  max-width: 600px; /* Limita la larghezza massima del paragrafo a 600px per evitare righe troppo lunghe che affaticano la lettura */
+}
+
+
+.sezione-sostenibilità .image { /* Seleziona l'elemento con la classe "image" dell'elemento "sezione-sostenibilità"*/
+  flex: 1 1 400px; /* L'elemento cresce, si stringe, ed è largo 400px*/
+  text-align: center; /* Posiziona l'immagine al centro*/
+}
+
+.sezione-sostenibilità .image img { /* Seleziona l'elemento img, nell'elemento "image", nell'elemento "sezione-sostenibilità"*/
+  width: 500px; /* Larghezza dell'immagine a 500px*/
+  height: auto; /* Altezza centrata in base alla larghezza dell'elemento padre*/
+  animation: float 6s ease-in-out infinite; /* Animazione float, definita in seguito, per 6 secondi, in modo fluido, infinitamente*/
+}
+
+/* Animazioni */
+@keyframes fadeInUp { /* Usa un "keyframe" per creare un'animazione che fa apparire e salire leggermente un elemento */
+  to { /* Definisce lo stato finale dell'animazione */
+    opacity: 1; /* Rende l'elemento completamente visibile (valore massimo di opacità) */
+    transform: translateY(0); /* Riporta l'elemento alla sua posizione originale lungo l'asse verticale */
+  }
+}
+
+@keyframes float { /* Usa un "keyframe" per creare l'animazione di fluttuazione */
+  0%, 100% { /* Stato iniziale e finale: l'elemento è nella sua posizione originale */
+    transform: translateY(0px); /*Inizio e fine, l'elemento si trova nella posizione iniziale */
+  }
+  50% { /* Punto intermedio dell'animazione (a metà del ciclo) */
+    transform: translateY(-50px); /* Sposta l'elemento verso l'alto di 50px, creando l'effetto di "galleggiamento" */
+  }
+}
+
+
+/* Responsive */
+@media (max-width: 798px) { /* Usa una "Media query" per assegnare le seguenti proprietà quando lo schermo è più piccolo di 798px*/
+  .sezione-sostenibilità .contenuto { /* Seleziona il "contenuto" dell'elemento "sezione-sostenibilità"*/
+    flex-direction: column; /* Suddivide in colonna gli elementi*/
+    text-align: center; /* Allinea il testo al centro*/
+  }
+
+  .sezione-sostenibilità h2 { /* Seleziona l'elemento h2 dell'elemento "sezione-sostenibilità"*/
+    font-size: 2rem; /* Imposta la grandezza del testo a 2rem (cioé 2 volte la dimesione base del font (16px-->32px))*/
+  }
+
+  .sezione-sostenibilità p { /* Seleziona i paragrafi dell'elemento "sezione-sostenibilità"*/
+    font-size: 1.1rem; /* Imposta la grandezza a 1.1rem, cioé a 1.1 volte la dimensione base*/
+  }
+
+  .sezione-sostenibilità img { /* seleziona l'elemento img dell'elemento "sezione-sostenibilità"*/
+    padding-top: 50%; /* Imposta la distanza dal margine al 50%*/
+    width: 280px; /* Imposta la larghezza a 280px*/
+  }
+
+  .connettiamo {
+    width: 35%; /* Imposta la larghezza del sottotitolo del logo del footer per renderla adatta ai piccoli schermi*/
+  }
+}
+
+
+/* Sezione ricerca */
+.sezione-ricerca { /* Seleziona l'elemento con classe "sezione-ricerca"*/
+  padding: 20px; /* Imposta la distanza dal margine a 20px*/
+  text-align: center; /* Allinea il contenuto al centro*/
+}
+
+#ricerca { /* Seleziona l'elemento con l'id "ricerca"*/
+  padding: 10px; /* Imposta la distanza interna da tutti i margini a 10px*/
+  width: 60%; /* Imposta la larghezza al 60%*/
+  max-width: 400px; /* Larghezza massima a 400px*/
+  margin: 10px auto; /* Margine sopra e sotto di 10px, a destra e a sinistra auto in modo da centralizzare l'elemento*/
+  display: block; /* Visualizza gli elementi in block*/
+  border: 1px solid #ccc; /* Crea un bordo di 1px di colore #ccc*/
+  border-radius: 5px; /* Da un raggio di 5px agli angoli, per rendere l'elemento leggermente circolare*/
+}
+
+/* Lista categorie */
+#lista-categorie { /* Seleziona l'elemento con l'id "lista-categorie"*/
+  display: flex; /* Visualizza in flex*/
+  flex-wrap: wrap; /* Fa andare a capo gli elementi*/
+  justify-content: center; /* Posiziona gli elementi al centro nell'asse x*/
+  gap: 15px; /* Crea una distanza tra gli elementi di 15px*/
+  padding: 20px; /* Imposta la distanza interna dal margine a 20px*/
+}
+
+.card-categoria { /* Seleziona gli elementi con classe "card-categoria"*/
+  background: white; /* Imposta il colore dello sfondo della card*/
+  border-radius: 8px; /* Imposta il raggio degli angoli a 8px, per far sembrare le card leggermente circolari*/
+  padding: 15px; /* Imposta la distanza interna dal margine di 15px*/
+  width: 250px; /* Imposta la larghezza a 250px*/
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Crea un'ombra intorno alle card per dare loro profondità*/
+  text-align: center; /* Posiziona il testo delle card al centro*/
+  cursor: pointer; /* Il cursore diventa una manina quando si posiziona sopra*/
+  transition: 0.3s; /* Le animazioni delle card durano 0.3 secondi*/
+}
+
+.card-categoria:hover { /* Che succede quando il mouse va sopra le card?*/
+  background-color: #0b9aec; /* Cambiano colore*/
+  color: white; /* Il testo diventa bianco*/
+}
+
+/* Sezione report */
+#sezione-report { /* Seleziona l'elemento con id "sezione-report"*/
+  text-align: center; /* Allinea il testo al centro*/
+  padding: 20px; /* Imposta la distanza interna dal margine a 20px*/
+  display: none; /* Non viene visualizzata finche non si clicca una card (vedi JavaScript)*/
+}
+
+#lista-report { /* Seleziona l'elemento con id "lista-report"*/
+  display: flex; /* Visualizza in flex*/
+  flex-wrap: wrap; /* Fa in modo che gli elementi possano andare a capo*/
+  justify-content: center; /* Posiziona gli elementi al centro sull'asse x*/
+  gap: 15px; /* Crea una distanza di 15px tra gli elementi*/
+  padding: 20px; /* Imposta la distanza interna dal margine a 20px*/
+}
+
+.report-card { /* Seleziona gli elementi con la classe "report-card"*/
+  background: white; /* Imposta il colore dello sfondo delle card*/
+  border-radius: 8px; /* Crea un raggio di 8px agli angoli, per rendere le card leggermente circolari*/
+  padding: 15px; /* Imposta la distanza interna dal margine a 15px*/
+  width: 280px; /* Imposta la larghezza a 280px*/
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Crea un'ombra per dare profondità alle card*/
+  text-align: center; /* Centra il testo delle card*/
+}
+
+.report-card h3 { /* Seleziona l'elemento h3 degli elementi con classe "report-card"*/
+  margin: 10px 0; /* Imposta il margine a 10px sopra e sotto, e 0px a destra e a sinistra*/
+}
+
+.report-card a { /* Seleziona gli anchor tag (Pulsanti di download) delle "report-card"*/
+  display: block; /* Visualizza in block*/
+  background-color: #0b9aec; /* Imposta il colore dello sfondo dei pulsanti di download*/
+  color: white; /* Imposta il colore del testo dei pulsanti di download*/
+  text-decoration: none; /* Rimuove la sottolineatura del link*/
+  padding: 8px; /* Imposta la distanza interna dal margine a 8px*/
+  border-radius: 5px; /* Imposta un raggio di 5px agli angoli, per rendere i pulsanti di download leggermente circolari*/
+  transition: 0.3s; /* Le animazioni dei pulsanti di download durano 0.3 secondi*/
+}
+
+.report-card a:hover { /* Ce succede quando il mouse va sopra i pulsanti di download?*/
+  background-color: #8abae1; /* Cambiano colore*/
+}
+
+/* Nascondi elemento */
+.nascosto { /* Nasconde gli elementi che hanno la classe "nascosto"*/
+  display: none; /* Nasconde l'elemento*/
+}
+
+/* Piédipagina */
+.piédipagina { /* Seleziona l'elemento con la classe "piédipagina"*/
+  background-color: rgb(1, 58, 104); /* Imposta il colore dello sfondo del piédipagina (preso dal sito originale)*/
+  color: white; /* Imposta il colore del testo*/
+  padding: 3rem 2rem 1rem; /* Imposta la distanza interna dal margine*/
+}
+
+.contenitore-piédipagina {/*Seleziona l'elemento con classe "contenitore-piédipagina"*/
+  max-width: 1200px; /* Imposta la larghezza massima a 1200px*/
+  margin: 0 auto; /* Zero margine sopra e sotto, e contenuto centralizzato con auto a destra e sinistra*/
+  display: flex; /* Visualizza in flex*/
+  flex-wrap: wrap; /* Fa in modo che gli elementi possano andare a capo*/
+  justify-content: space-between; /* Distrubuisce equamente lo spazio tra gli elementi sull'asse x*/
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Crea una linea sotto il contenitore usando il bordo*/
+  padding-bottom: 2rem; /* Imposta la distanza interna sul fondo a 2rem*/
+}
+
+.logo-social-piédipagina { /* Seleziona l'elemento con classe "logo-solial-piédipagina"*/
+  flex: 1 1 200px; /* L'elemento cresce, si stringe, ed è largo 200px*/
+  margin-bottom: 2rem; /* Imposta il margine sul fondo a 2rem*/
+}
+
+.logo-piédipagina { /* Seleziona l'elemento con classe "logo-piédipagina"*/
+  font-size: 1.8rem; /* Imposta la grandezza del testo a 1.8rem*/
+  font-weight: bold; /* Imposta il grassetto al logo*/
+  margin-bottom: 1rem; /* Imposta il margine sul fondo a 1rem*/
+}
+
+.icone-social { /* Seleziona l'elemento con classe "icone-social"*/
+  display: flex; /* Visualizza in flex*/
+  gap: 0.8rem; /* Crea una distanza tra gli elementi di 0.8rem*/
+  margin-top: 1rem; /* Imposta il margine superiore a 1rem*/
+}
+
+.piédipaginaPrimaColonna { /* Seleziona l'elemento con classe "piédipaginaPrimaColonna"*/
+  border-left: 1px solid rgba(255, 255, 255, 0.2); /* Crea una linea a sinistra dell'elemento usando un bordo*/
+  padding-left: 30px; /* Imposta la distanza interna dal margine a sinistra a 30px*/
+}
+
+.colonna-piédipagina { /* Seleziona gli elementi con classe "colonna-piédipagina"*/
+  flex: 1 1 200px; /* Gli elementi crescono, si stringono, e sono grandi 200px*/
+  margin-bottom: 2rem; /* Imposta il margine inferiore a 2rem*/
+}
+
+.colonna-piédipagina h4 { /* Seleziona l'elemento h4 degli elementi con classe "colonna-piédipagina"*/
+  margin-bottom: 1rem; /* Imposta il margine inferiore a 1rem*/
+  font-size: 1.1rem; /* Imposta la grandezza del testo a 1.1rem*/
+}
+
+.colonna-piédipagina ul { /* Seleziona le unordered-list degli elementi con classe "colonna-piédipagina"*/
+  list-style: none; /* Rimuove i pallini presenti prima degli elementi delle liste*/
+  padding: 0; /* Imposta la distanza interna dal margine a 0*/
+}
+
+.colonna-piédipagina ul li { /* Seleziona gli elementi delle unordered-list degli elementi con classe "colonna-piédipagina"*/
+  margin-bottom: 0.5rem; /* Imposta il margine inferiore a 0.5rem*/
+}
+
+.colonna-piédipagina ul li a { /* Seleziona i link degli elementi delle unordered-list degli elementi con classe "colonna-piédipagina"*/
+  color: white; /* Imposta il colore del testo*/
+  text-decoration: none; /* Rimuove la sottolineatura*/
+  opacity: 0.9; /* Imposta la visibilità dei link a 0.9*/
+  transition: opacity 0.3s ease; /* Le animazioni dei link dureranno 0.3 secondi*/
+}
+
+.colonna-piédipagina ul li a:hover { /* Cosa succede quando il mouse va sopra i link?*/
+  opacity: 1; /* La visibilità si imposta a 1*/
+  text-decoration: underline; /* Si sottolineano*/
+}
+
+.fondo-piédipagina { /* Seleziona l'elemento con la classe "fondo-piédipagina"*/
+  text-align: center; /* Allinea il testo al centro*/
+  padding-top: 1.5rem; /* Imposta la distanza interna dal margine superiore a 1.5rem*/
+  font-size: 0.9rem; /* Imposta la grandezza del testo a 0.9rem*/
+  opacity: 0.8; /* Imposta la visibilità del testo a 0.8*/
+}
+
+.fondo-piédipagina a { /* Seleziona i link dell'elemento con classe "fondo-piédipagina"*/
+  color: white; /* Imposta il colore del testo*/
+  margin: 0 0.5rem; /* Imposta il margine sopra e sotto a 0, e il margine a destra e a sinistra a 0.5rem*/
+  text-decoration: none; /* Rimuove la sottolineatura*/
+}
+
+.fondo-piédipagina a:hover { /* Cosa succede quando il mouse va sopra i link del fondo-piédipagina?*/
+  text-decoration: underline; /* Si sottolineano*/
+}
+
+@media (max-width: 768px) { /* Usa una "Media query" per assegnare le seguenti proprietà quando lo schermo è più piccolo di 768px*/
+  .contenitore-piédipagina { /* Seleziona l'elemento con classe "contenitore-piédipagina"*/
+    flex-direction: column; /* Incolonna gli elementi del piédipagina quando lo schermo è più piccolo di 768px*/
+    gap: 2rem; /* Crea una distanza di 2rem tra gli elementi*/
+  }
+}
+
+.connettiamo { /* Seleziona l'elemento con classe "connettiamo"*/
+  padding-top:15px; /* Imposta la distanza interna dal margine superiore a 15px*/
+  padding-bottom:60px; /* Imposta la distanza interna dal margine inferiore a 60px*/
+}
+
+.icone-social a { /* Seleziona i link dell'elemento con classe "icone-social"*/
+  display: inline-block; /* Visualizza gli elementi come inline-block*/
+  background-color: white; /* Imposta il colore dello sfondo*/
+  border-radius: 50%; /* Crea il raggio agli angoli del 50%, per rendere le icone totalmente circolari*/
+  width: 40px; /* Larghezza di 40px*/
+  height: 40px; /* Altezza di 40px*/
+  overflow: hidden; /* Nasconde il contenuto che straborda*/
+  transition: transform 0.3s ease; /* Le animazioni delle icone durano 0.3 secondi*/
+}
+
+.icone-social a img { /* Seleziona gli elementi img dei link dell'elemento con classe "icone-social"*/
+  width: 100%; /* Larghezza del 100%*/
+  height: 100%; /* Altezza del 100%*/
+  object-fit: cover; /* Adatta l'immagine al contenitore mantenendo il rapporto, ritagliando se necessario (copre senza deformare) */
+  display: block; /* Imposta il display a block per rimuovere eventuali spazi indesiderati sotto l'immagine */
+  border-radius: 50%; /* Rende l'immagine completamente circolare, utile per icone o avatar */
+}
+
+.icone-social a:hover { /* Cosa succede quando il mouse va sopra le icone (sopra i link delle icone)?*/
+  transform: scale(1.15); /* Si ingrandiscono di 0.15*/
+}
+    </style> <!-- Chiusura della parte CSS-->
+</head> <!-- Chiusura dell'head-->
+<body> <!-- Apertura del corpo-->
+
+    <header id="header"> <!-- Apertura dell'header-->
+        <div class="logo"> <!-- Creazione del divisore con classe "logo"-->
+            <a href="https://www.a2a.it/"><img src="immagini/logo-a2a.png" alt="A2A Logo"></a> <!-- Immagine che porta al link del sito originale di A2A-->
+            <h1>Report di Sostenibilità</h1> <!-- Titolo-->
+          </div> <!-- Chiusura del dividore "logo"-->
+        
+          <nav class="headerNav"> <!-- Apertura del nav (lista di link)-->
+            <a href="https://www.a2a.it">Home</a> <!-- Home-->
+            <a href="https://www.a2a.it/chi-siamo">Chi siamo</a> <!-- Chi Siamo-->
+            <a href="https://www.gruppoa2a.it/it/cosa-facciamo">Servizi</a> <!-- Servizi-->
+            <a href="https://www.a2a.it/assistenza/contatti">Contatti</a> <!-- Contatti-->
+          </nav> <!-- Chiusura del nav-->
+        
+          <div class="contenitore-ricerca"> <!-- Creazione del divisore con classe "contenitore-ricerca"-->
+            <input type="text" id="searchInputHeader" placeholder="Cerca..."> <!-- Input della barra di ricerca dell'header-->
+            <button id="searchButton">🔍</button> <!-- Pulsante di ricerca-->
+          </div> <!-- Chiusura del divisore con classe "contenitore-ricerca"-->
+        
+          <a href="https://login.a2a.it/"><button class="bottone-profilo" id="userButton">👤 Profilo</button></a> <!-- Pulsante per accedere al login di a2a-->
+    </header> <!-- Chiusura dell'header-->
+  <div class="contenitore-pagina"> <!-- Apertura del divisore con classe "contenitore-pagina"-->
+    <main> <!-- Apertura del main-->
+        <section class="intro"> <!-- Apertura della sezione Intro con classe "intro"-->
+            <div class="elIntro"> <!-- Apertura del divisore con classe "elIntro"-->
+                <h2>IL NOSTRO IMPEGNO PER LA SOSTENIBILITÀ</h2> <!-- Titolo dell'intro-->
+                <p>
+                    Scopri come A2A Life Company sta contribuendo a un futuro più sostenibile attraverso iniziative ambientali, sociali ed economiche.
+                </p> <!-- Paragrafo di introduzione-->
+
+                <p>
+                    Questa pagina è stata realizzata al solo scopo di ricerca accademica nell’ambito di una tesi di laurea e non rappresenta una riproduzione ufficiale del sito web di A2A. Tutti i diritti relativi al logo, ai contenuti e al marchio appartengono ai rispettivi proprietari.
+                </p> <!-- DISCLAIMER-->
+                <p>
+                  Le varie voci, e il seguente pulsante portano al sito originale:
+                </p> <!-- DISCLAIMER LINK-->
+                <a href="https://www.gruppoa2a.it/it/sostenibilita" class="linkScopriBtn"><button class="scopri-btn">
+                  Scopri di più <span class="freccia">→</span>
+                </button></a> <!-- Pulsante Scopri di più-->
+            </div> <!-- Chiusura del divisore con classe "elIntro"-->
+        </section> <!-- Chiusura della sezione Intro con classe "intro"-->
+
+        <section class="sezione-sostenibilità"> <!-- Apertura della sezione con classe "sezione-sostenibilità"-->
+          <div class="contenuto"> <!-- Apertura del divisore con classe "contenuto"-->
+            <div class="testo"> <!-- Apertura del divisore con classe "testo"-->
+              <h2><span class="glow">La sostenibilità</span> è il nostro orizzonte</h2> <!-- Titolo della sezione testuale, con il tag "span" con classe glow sulla scritta "La sostenibilità" per farla brillare-->
+              <p>A2A per la Transizione Ecologica</p> <!-- Paragrafo sottotitolo-->
+                
+                <p>Davanti alle sfide ambientali e sociali, A2A punta su energia, acqua e ambiente per costruire un futuro sostenibile. Investe in rinnovabili, idrogeno verde, infrastrutture smart e riduzione delle perdite idriche, con il 75% degli investimenti in linea con la Tassonomia UE.</p> <!-- Primo paragrafo-->
+
+                <p>La strategia si fonda su <strong>transizione energetica</strong>, <strong>decarbonizzazione</strong>, ed <strong>economia circolare</strong>, integrando <strong>12 SDGs ONU</strong>: qualità dell’istruzione, parità di genere, acqua ed energia pulita, innovazione, lavoro dignitoso, città sostenibili, consumo responsabile, clima, biodiversità e partnership.</p> <!-- Secondo paragrafo, con le sezioni della strategia di a2a evidenziate-->
+
+                <p>Obiettivi chiave per il 2035 sono: -440 kt/a CO₂ con il teleriscaldamento, meno di 12,8 mc/km/gg di perdite idriche, 2,1 Mt di rifiuti recuperati.</p> <!-- Terzo paragrafo-->
+
+                <p>A2A non si ferma alla teoria. Offre servizi utili per promuovere uno stile di vita più sostenibile: mobilità elettrica, raccolta differenziata smart, digitalizzazione e strumenti per aiutare le persone a fare scelte migliori per l’ambiente.</p> <!-- Quarto paragrafo-->
+                <p>Per A2A il dialogo con le persone è fondamentale. Ascoltare le comunità, capire i bisogni locali e costruire insieme è parte integrante della strategia. Dal 2015 hanno attivato spazi di confronto come forumAscolto e messo nero su bianco le linee guida per coinvolgere i cittadini.</p> <!-- Quinto paragrafo-->
+                <p>A2A non guarda solo al presente, <strong class="glow">ma costruisce un futuro sostenibile</strong> insieme a persone, comunità e territori. La transizione ecologica è una sfida condivisa, e noi siamo pronti a fare la nostra parte.</p> <!-- Sesto paragrafo, con il tag "strong" sulla scritta "ma costruisce un futuro sostenibile" per farla brillare-->
+                <p>Di seguito sono presenti, suddivisi per categoria e anno, i report di sostenibilità dei bilanci integrati (solo del 2023, in quanto quelli del 2024 non sono disponibili sui siti ufficiali):</p> <!-- Paragrafo presentazione dei report-->
+            </div> <!-- Chiusura del divisore con classe "testo"-->
+            <div class="image" id="emoji-carousel"> <!-- Apertura del divisore delle emoji, con classe "image" e id "emoji-carousel", per indicare il carosello delle emoji delle piante. Margine superiore impostato a 20px-->
+              <img id="plantEmoji" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f331.svg" alt="Emoji pianta"> <!-- Immagini emoji che cambiano (vedi JavaScript)-->
+            </div> <!-- Chiusura del divisore delle emoji con classe "image" e id "emoji-carousel"-->
+          </div> <!-- Chiusura del divisore con classe "contenuto"-->
+        </section> <!-- Chiusura della sezione con classe "sezione-sostenibilità"-->
+
+        <section  style="display: flex; justify-content: center;">
+          <img src="https://media.tenor.com/6ernL44cP1gAAAAi/google-sustainability.gif" alt="Immagine animata sostenibilità" style="height: 400px;"/>
+        </section>
+
+        <section class="sezione-ricerca"> <!-- Apertura della sezione con classe "sezione-ricerca"-->
+            <h2>Cerca una Categoria</h2> <!-- h2 per la ricerca delle categorie di report-->
+            <input type="text" id="ricerca" placeholder="Inserisci una categoria..."> <!-- Input della barra di ricerca delle categorie-->
+            <div id="lista-categorie"> <!-- Apertura del divisore con id "lista-categorie"-->
+                <!-- Le categorie verranno mostrate qui (vedi JavaScript)-->
+            </div> <!-- Chiusura del divisore con classe "lista-categoria"-->
+        </section> <!-- Chiusura della sezione con classe "sezione ricerca"-->
+
+        <section id="sezione-report" class="nascosto"> <!-- Apertura della sezione con classe "nascosto" (vedi JavaScript) e id "sezione-report"-->
+            <h2>Report della Categoria: <span id="category-name"></span></h2> <!-- h2 delle card dei report-->
+            <div id="lista-report"> <!-- Apertura del divisore con id "lista-report"-->
+                <!-- I report della categoria selezionata compariranno qui (vedi JavaScript)-->
+            </div> <!-- Chiusura del divisore con classe "lista-report"-->
+        </section> <!-- Chiusura della sezione con classe "nascosto" (vedi JavaScript) e id "sezione-report"-->
+    </main> <!-- Chiusura del main -->
+
+    <footer class="piédipagina"> <!-- Apertura del piédipagina con classe "piédipagina"-->
+      <div class="contenitore-piédipagina"> <!-- Apertura del divisore con classe "contenitore-piédipagina"-->
+        <div class="logo-social-piédipagina"> <!-- Apertura del divisore con classe "logo-social-piédipagina" -->
+          <div class="logo-piédipagina">⚡ A2A: </div> <!-- Divisore per il logo con classe "logo-piédipagina" -->
+          <p class="connettiamo" style="font-size:17px; padding-right: 20px;">Connettiamo persone ed energia con trasparenza e innovazione.</p> <!-- Paragrafo del logo, con grandezza del testo a 17px, e distanza interna dal margine a destra di 20px -->
+          
+          <div class="icone-social"> <!-- Apertura del divisore con classe "icone-social" -->
+        
+            <a href="https://x.com/i/flow/login?redirect_after_login=%2Fgruppo_a2a">
+              <i class="fab fa-X"><img src="immagini/x.png" alt="X"/></i>
+            </a> <!-- Link al profilo X (ex Twitter) di A2A con icona personalizzata -->
+        
+            <a href="https://it-it.facebook.com/A2AEnergia/">
+              <i class="fab fa-facebook-f"><img src="immagini/facebook.png" alt="Facebook"/></i>
+            </a> <!-- Link alla pagina Facebook di A2A -->
+        
+            <a href="https://it.linkedin.com/company/a2a/">
+              <i class="fab fa-linkedin-in"><img src="immagini/linkedin.png" alt="Linkedin"/></i>
+            </a> <!-- Link al profilo LinkedIn di A2A -->
+        
+            <a href="https://www.instagram.com/a2alifecompany/">
+              <i class="fab fa-instagram"><img src="immagini/instagram.png" alt="Instagram"/></i>
+            </a> <!-- Link al profilo Instagram di A2A -->
+        
+            <a href="https://www.youtube.com/user/a2a">
+              <i class="fab fa-youtube"><img src="immagini/youtube.png" alt="Youtube"/></i>
+            </a> <!-- Link al canale YouTube di A2A -->
+        
+          </div> <!-- Chiusura del divisore "icone-social" -->
+        </div> <!-- Chiusura del divisore "logo-social-piédipagina" -->
+        <div class="colonna-piédipagina piédipaginaPrimaColonna"> <!-- Div con classi "colonna-piédipagina" e "piédipaginaPrimaColonna", rappresenta la prima colonna del piè di pagina dedicata ai clienti -->
+          <h3>Clienti</h3> <!-- Titolo della colonna "Clienti" -->
+          <ul> <!-- Lista non ordinata all'interno della colonna "piédipaginaPrimaColonna" -->
+            <li><a href="https://www.a2a.it/casa/">Luce e Gas Casa</a></li> <!-- Link nella lista della colonna "piédipaginaPrimaColonna" -->
+            <li><a href="https://www.a2a.it/business/">Offerte Business</a></li> <!-- Link nella lista della colonna "piédipaginaPrimaColonna" -->
+            <li><a href="https://www.a2a.it/condominio/">Condomini</a></li> <!-- Link nella lista della colonna "piédipaginaPrimaColonna" -->
+            <li><a href="https://www.a2acaloreservizi.eu/area-clienti">Area Clienti</a></li> <!-- Link nella lista della colonna "piédipaginaPrimaColonna" -->
+            <li><a href="https://www.a2a.it/assistenza/contatti">Contatti</a></li> <!-- Link nella lista della colonna "piédipaginaPrimaColonna" -->
+          </ul> <!-- Fine della lista nella colonna "piédipaginaPrimaColonna" -->
+        </div> <!-- Chiusura div "colonna-piédipagina piédipaginaPrimaColonna" -->
+        
+        <div class="colonna-piédipagina"> <!-- Div con classe "colonna-piédipagina", rappresenta la seconda colonna del piè di pagina dedicata al supporto -->
+          <h3>Supporto</h3> <!-- Titolo della colonna "Supporto" -->
+          <ul> <!-- Lista non ordinata all'interno della colonna "colonna-piédipagina" (Supporto) -->
+            <li><a href="https://www.a2a.it/assistenza/faq">FAQ</a></li> <!-- Link nella lista della colonna "Supporto" -->
+            <li><a href="https://www.a2a.it/assistenza/modulistica">Moduli</a></li> <!-- Link nella lista della colonna "Supporto" -->
+            <li><a href="https://www.a2a.it/assistenza/modulistica/come-inviare-reclamo">Segnalazioni</a></li> <!-- Link nella lista della colonna "Supporto" -->
+            <li><a href="https://www.a2a.it/casa/extra2a">Servizi Extra</a></li> <!-- Link nella lista della colonna "Supporto" -->
+            <li><a href="https://www.a2a.it/business/finetutela">Fine tutela</a></li> <!-- Link nella lista della colonna "Supporto" -->
+          </ul> <!-- Fine della lista nella colonna "Supporto" -->
+        </div> <!-- Chiusura div "colonna-piédipagina" (Supporto) -->
+        
+        <div class="colonna-piédipagina"> <!-- Div con classe "colonna-piédipagina", rappresenta la terza colonna del piè di pagina dedicata all'azienda -->
+          <h3>La nostra azienda</h3> <!-- Titolo della colonna "La nostra azienda" -->
+          <ul> <!-- Lista non ordinata all'interno della colonna "colonna-piédipagina" (Azienda) -->
+            <li><a href="https://www.a2a.it">Chi siamo</a></li> <!-- Link nella lista della colonna "La nostra azienda" -->
+            <li><a href="https://www.a2a.it/chi-siamo/sostenibilita">Sostenibilità</a></li> <!-- Link nella lista della colonna "La nostra azienda" -->
+            <li><a href="https://www.gruppoa2a.it/it/carriere">Lavora con noi</a></li> <!-- Link nella lista della colonna "La nostra azienda" -->
+            <li><a href="https://www.a2a.it/chi-siamo/governance">Governance</a></li> <!-- Link nella lista della colonna "La nostra azienda" -->
+          </ul> <!-- Fine della lista nella colonna "La nostra azienda" -->
+        </div> <!-- Chiusura div "colonna-piédipagina" (La nostra azienda) -->
+        
+      </div> <!-- Chiusura del divisore con classe "contenitore-piédipagina"-->
+      <div class="fondo-piédipagina"> <!-- Div con classe "fondo-piédipagina"-->
+        © 2025 EnerNet S.p.A. | P.IVA 12345678901 |
+        <a href="https://www.gruppoa2a.it/it/privacy-policy">Privacy Policy</a> | <!-- Link alle Privacy Policy-->
+        <a href="https://www.a2a.it/informazioni-legali">Note legali</a> | <!-- Link alle Note legali-->
+        <a href="https://www.a2a.it/dichiarazione-accessibilita-sito">Accessibilità</a> | <!-- Link all'accessibilità-->
+        <a href="https://www.a2a.it/cookie-policy">Preferenze cookie</a> <!-- Link alle preferenze cookie-->
+      </div> <!-- Chiusura del div con classe "fondo-piédipagina"-->
+      
+    </footer> <!-- Chiusura del piédipagina-->
+  </div>   <!-- Chiusura del div con classe "contenitore-pagina"-->
+<script> /* JavaScript */
+
+  let lastScrollTop = 0; /* Creazione della variabile "lastScrollTop" inizializzata a 0*/
+  
+  const header = document.getElementById('header'); /* Seleziona l'elemento con id "header" e lo mette nella costante header*/
+  
+  window.addEventListener('scroll', () => { /* Aggiunge un listener che esegue la funzione ogni volta che l'utente scrolla la pagina */
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop; /* Ottiene la quantità di pixel scrollati verticalmente dalla parte superiore della pagina, e la mette nella costante "" */
+  
+    if (scrollTop === 0) { /* Se sei esattamente in cima alla pagina (scroll = 0) */
+      // Sei tornato in cima alla pagina
+      header.style.transform = 'translateY(0)'; /* Riporta l'header nella sua posizione originale (visibile) */
+      header.style.opacity = '1'; /* Rende di nuovo visibile l'header */
+    } else if (scrollTop > lastScrollTop) { /* Se stai scrollando verso il basso (l'ultima posizione è minore di quella attuale) */
+      // Scroll verso il basso
+      header.style.transform = 'translateY(-100%)'; /* Sposta l'header verso l'alto fuori dalla vista */
+      header.style.opacity = '0'; /* Rende trasparente l'header (lo nasconde visivamente) */
+    }
+  
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; /* Aggiorna la variabile lastScrollTop con la nuova posizione di scroll (ma mai sotto zero) */
+  });
+  
+  
+    document.addEventListener("DOMContentLoaded", function () { /* Funzione eseguita al caricamento del DOM (Document Object Model)*/
+     const categories = { /* Crea un oggetto chiamato "categories" che contiene i vari gruppi di report suddivisi per categoria e anno. Un oggetto con coppie chiave/valore, e ogni valore contiene array ordinati nome/valore. Nomi che verranno utilizzati nel codice di sotto.*/
+          "Lettere agli Stakeholders": [ /* Questa è la prima chiave che si riferisce al primo array, contenente il titolo del report, l’anno, e il link al file rar per il download*/
+              {title: "Report Lettere 2023", year: "2023", link: "file-pdf/report-lettere-2023.rar" }, /* Report del 2023*/ /* Gli Stakeholders sono tutte quelle persone, gruppi o anche organizzazioni, che hanno interesse diretto o indiretto nei confronti delle attività e risultati dell’azienda*/
+              { title: "Report Lettere 2024", year: "2024", link: "file-pdf/report-lettere-2024.rar" }, /* Report del 2024*/
+              { title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, /* Report Completo 2023, che è l’unico reperibile dai siti ufficiali per il momento.*/
+              {title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } /* Report Completo, che non è ancora presente, ma è inserito per completezza, ed è funzionante qualora si inserisse il file nella cartella!*/
+          ],
+          "Note Metodologiche": [ 
+              { title: "Report Nota Metodologica 2023", year: "2023", link: "file-pdf/report-note-2023.rar" }, /* La nota metodologica è una parte fondamentale del bilancio integrato, in quanto spiega attentamente i metodi con cui il bilancio è stato redatto, mostrando le varie fonti e garantendo trasparenza, credibilità e comprensione. Agisce come un “dietro le quinte” spiegando perché fidarsi di quello che si legge e come interpretarlo correttamente*/
+              {title: "Report Nota Metodologica 2024", year: "2024", link: "file-pdf/report-note-2024.rar" }, 
+              { title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+              { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+          ],
+          "Modello di business": [ 
+            {title: "Report Business 2023", year: "2023", link: "file-pdf/report-business-2023.rar" },
+            { title: "Report Business 2024", year: "2024", link: "file-pdf/report-business-2024.rar" }, /* Il modello di business è una parte del document oche spiega il “purpose”, la mission e i valori del gruppo, che sono rispettivamente lo scopo più profondo oltre il profitto, cosa fa concretamente l’azienda, e i principi guida su come lo fa!*/
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" },
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+          ],
+          "Governance": [ 
+            {title: "Report Governance 2023", year: "2023", link: "file-pdf/report-governance-2023.rar" }, /* La governance è l’insieme delle regole, processi e organi, con cui un’azienda viene gestita; in parole semplici descrive chi prende le decisioni, chi controlla cosa, come vengono gestite le risorse, e come si garantisce che tutti sia fatto in modo efficiente, trasparente ed etico*/
+            { title: "Report Governance 2024", year: "2024", link: "file-pdf/report-governance-2024.rar" },
+            {  title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" },
+            {title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" }
+          ],
+          "Strategia Sostenibile": [ 
+            { title: "Report Str. Sostenibile 2023", year: "2023", link: "file-pdf/report-strsost-2023.rar" },
+            { title: "Report Str. Sostenibile 2024", year: "2024", link: "file-pdf/report-strsos-2024.rar" },/* Il cuore dei report e del tema del presente lavoro di tesi; esso è il piano d’azione a lungo termine con cui un’azienda cerca di creare valore non solo economico, ma anche ambientale e sociale, in modo integrato e responsabile. Esso guarda oltre i trimestri o gli anni fiscali correnti, mirando ad esempio a raggiungere la “carbon neutrality” entro il 2040, investendo in tecnologie e modelli sostenibili, e allineandosi con gli SDGs dell’ONU (Obiettivi di Sviluppo Sostenibile)*/
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" },
+            {  title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" }
+        ],
+        "Stakeholder Engagement e Analisi di Materialità": [ 
+            { title: "Report Engagement e Materialità 2023", year: "2023", link: "file-pdf/report-engmat-2023.rar" }, /* Esso è il coinvolgimento delle persone di interesse nelle decisioni dell’azienda, e l’analisi di temi materiali comuni*/
+            { title: "Report Engagement e Materialità 2024", year: "2024", link: "file-pdf/report-engmat-2024.rar" },
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" },
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" }
+        ],
+        "Capitale Finanziario": [ 
+            { title: "Report Cap. Finanziario 2023", year: "2023", link: "file-pdf/report-capfin-2023.rar" }, /* Il Capitale Finanziario è parte dei sei capitali definiti dal framework Integrated Reporting (IR), ed, in pratica, l’insieme delle risorse economiche e monetarie che un’azienda utilizza per finanziare le sue attività e crescere. È tutto ciò che riguarda i soldi e gli strumenti finanziari che l’azienda ha, riceve o utilizza. */   
+            {  title: "Report Cap. Finanziario 2024", year: "2024", link: "file-pdf/report-capfin-2024.rar" }, 
+            { title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            {  title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],        
+        "Capitale Manifatturiero": [ 
+            { title: "Report Cap. Manifatturiero 2023", year: "2023", link: "file-pdf/report-capman-2023.rar" }, /* Anch’esso parte dei sei capitali definiti dall’IR e rappresenta l’insieme delle infrastrutture fisiche e tecniche che un’azienda utilizza per produrre beni o erogare servizi. */
+            { title: "Report Cap. Manifatturiero 2024", year: "2024", link: "file-pdf/report-capman-2024.rar" }, 
+            { title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "Capitale Naturale": [ 
+            {title: "Report Cap. Naturale 2023", year: "2023", link: "file-pdf/report-capnat-2023.rar" }, /* Parte dei sei capitali dell’IR, rappresenta tutte le risorse ambientali che un’azienda utilizza o da cui dipende per svolgere le sue attività, oltre ai servizi ecosistemici forniti dalla natura */
+            { title: "Report Cap. Naturale 2024", year: "2024", link: "file-pdf/report-capnat-2024.rar" }, 
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],   
+        "Capitale Umano": [     
+            {  title: "Report Cap. Umano 2023", year: "2023", link: "file-pdf/report-capum-2023.rar" }, /* Estremamente importante! Facente parte dei sei capitali dell’IR, il capitale umano contiene il valore delle competenze, conoscenze, esperienze, motivazioni e benessere delle persone che lavorano nell’azienda*/
+            { title: "Report Cap. Umano 2024", year: "2024", link: "file-pdf/report-capum-2024.rar" }, 
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "Capitale Intellettuale": [ 
+            { title: "Report Cap. Intellettuale 2023", year: "2023", link: "file-pdf/report-capint-2023.rar" }, /* È tutto quello che l’azienda sa, crea o possiede a livello immateriale, che le dà un vantaggio competitivo, anch’esso parte dei sei capitali dell’IR*/
+            { title: "Report Cap. Intellettuale 2024", year: "2024", link: "file-pdf/report-capint-2024.rar" }, 
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "Capitale Relazionale": [ 
+            { title: "Report Cap. Relazionale 2023", year: "2023", link: "file-pdf/report-caprel-2023.rar" }, /* Ultimo, ma non meno importante, capitale dei sei capitali dell’IR, il capitale relazionale rappresenta la rete di relazioni e la reputazione che un’azienda costruisce e mantiene con il mondo esterno: clienti, fornitori, istituzioni, comunità, media e stakeholder in generale*/
+            {title: "Report Cap. Relazionale 2024", year: "2024", link: "file-pdf/report-caprel-2024.rar" }, 
+            { title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "Società di Revisione": [ 
+            {title: "Report Revisione 2023", year: "2023", link: "file-pdf/report-revisione-2023.rar" }, /* La società di revisione è un ente esterno e indipendente che ha il compito di verificare la correttezza e la trasparenza dei bilanci di un’azienda */
+            { title: "Report Revisione 2024", year: "2024", link: "file-pdf/report-revisione-2024.rar" }, 
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            {  title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "GRI Content Index": [ 
+            { title: "Report GRI 2023", year: "2023", link: "file-pdf/report-gri-2023.rar" }, /* Il GRI, che sta per “Global Reporting Initiative”, è lo standard di rendicontazione della sostenibilità più utilizzato al mondo. Serve per guidare le aziende nel raccontare in modo chiaro, completo e comparabile l’impatto che hanno sull’ambiente, la società e l’economia. I suoi indici sono codici numerici associati a vari temi materiali, come le emissioni di CO2 (305), acqua (303), diritti umani (412), salute e sicurezza (403). Questi indici vengono spesso riportati in una tabella di raccordo GRI in fondo al bilancio, per indicare a che pagina si trovano i temi e che standard seguono */
+            {title: "Report GRI 2024", year: "2024", link: "file-pdf/report-gri-2024.rar" }, 
+            {  title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            { title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ],
+        "TCFD Content Index": [ 
+            {title: "Report TCFD 2023", year: "2023", link: "file-pdf/report-tcfd-2023.rar" }, /* Sono gli indici della Task Force on Climate-related Financial Disclosures. Ma cos’é? È una linea guida internazionale che aiuta le aziende a comunicare in modo chiaro i rischi e le opportunità legati al cambiamento climatico, con particolare attenzione all’aspetto finanziario. Si focalizza su quattro aree specifiche; Governance	(Chi prende le decisioni sul cambiamento climatico), Strategia (Come il clima impatta sulla strategia aziendale), Gestione del rischio (Come vengono gestiti i rischi legati al clima), Metriche e target (Dati quantitativi e obiettivi (es. net zero, emissioni, ecc.) */
+            { title: "Report TCFD 2024", year: "2024", link: "file-pdf/report-tcfd-2024.rar" }, 
+            {title: "Report Completo 2023", year: "2023", link: "file-pdf/report-completo-2023.rar" }, 
+            {  title: "Report Completo 2024", year: "2024", link: "file-pdf/report-completo-2024.rar" } 
+        ]
+  };
+  
+      const categoryList= document.getElementById("lista-categorie"); /* Seleziona l'elemento HTML con id "lista-categorie", che conterrà l'elenco delle categorie */
+      const searchInput =document.getElementById("ricerca"); /* seleziona l'input di ricerca con id "ricerca", per filtrare le categorie */
+      const reportSection = document.getElementById("sezione-report"); /* variabile che seleziona la sezione in cui verranno mostrati i report */
+      const reportList= document.getElementById("lista-report"); /* Seleziona l'elemento con id "lista-report", dove verranno inseriti i singoli report */
+      const categoryName =document.getElementById("category-name"); /* Seleziona l'elemento con id "category-name", per mostrare il nome della categoria selezionata */
+  
+      function displayCategories(filter= "") { /* Funzione per mostrare le categorie, con un filtro opzionale (vuoto di default) */
+          categoryList.innerHTML=""; /* Pulisce il contenuto di "lista-categorie" per aggiornare l'elenco */
+  
+          Object.keys(categories) /*  Ottiene tutte le chiavi dell'oggetto "categories", cioè i nomi delle categorie */
+              .filter(cat=> cat.toLowerCase().includes(filter.toLowerCase())) /*  Filtra le categorie in base al testo inserito nell'input (ignorando maiuscole/minuscole) */
+              .forEach(cat =>{ /* Per ogni categoria filtrata... */
+                  const categoryCard =document.createElement("div"); /*Crea un nuovo div per la categoria */
+                  categoryCard.classList.add("card-categoria"); /*  Aggiunge la classe "card-categoria" al div */
+                  categoryCard.textContent= cat; /* Imposta il testo del div con il nome della categoria */
+                  categoryCard.onclick =()=> displayReports(cat); /* Quando si clicca sulla categoria, vengono mostrati i report corrispondenti */
+                  categoryList.appendChild(categoryCard); /* Aggiunge la card della categoria all'elenco nella pagina */
+              });
+      }
+  
+      const plantStages = [ /* Ecco l’oggetto che contiene tutte le piante che crescono grazie all’interesse ai report di sostenibilità!*/      
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f331.svg", // 🌱 Germoglio
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33c.svg", // 🌼 Fiore semplice  (link alle emoji di twemoji!)
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2618.svg",  // ☘️ Trifoglio /* Non essendoci emoji per rappresentare i vari stadi di crescita, ho fatto del mio meglio per prendere varie emoji di piante e fiori che potrebbero rappresentare gli stadi non solo di una singola pianta, ma di più piante e fiori che crescono*/
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f340.svg", // 🍀 Quadrifoglio
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f343.svg", // 🍃 Foglie al vento 
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33e.svg", // 🌾 Spiga
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33b.svg", // 🌻 Girasole
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f339.svg", // 🌹 Rosa
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f338.svg", // 🌸 Fiore di ciliegio
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33f.svg", /* 🌿 Ramo verde*/
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f334.svg", // 🌴 Palma
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f332.svg", // 🌲 Abete
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f333.svg", // 🌳 Albero frondoso /* Ne manca solo uno e avremo costruito un paesaggio meraviglioso grazie alla sostenibilità!*/
+      "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3de.svg"  // 🏞️ Paesaggio
+      ];     
+  
+      let currentImg =0; /*  Inizializza la variabile che tiene traccia dell'indice attuale dell'immagine della pianta */
+  
+      function nextPlantStage() { /*Funzione che aggiorna l'immagine della pianta al prossimo stadio */
+          const emojiImg =document.getElementById("plantEmoji"); /*Seleziona l'elemento immagine con id "plantEmoji" */
+          currentImg =(currentImg + 1) % plantStages.length; /*   Incrementa l'indice, tornando a 0 quando si raggiunge la fine (rotazione ciclica con modulo) */
+          emojiImg.src= plantStages[currentImg]; /*     Cambia il percorso dell'immagine impostando il nuovo stadio della pianta */
+      }       
+  
+      function displayReports(category) { /* Funzione che mostra i report relativi a una determinata categoria */
+          reportList.innerHTML= ""; /* Svuota la lista dei report per mostrare solo quelli della categoria selezionata */
+          categoryName.textContent =category; /* Imposta il nome della categoria selezionata come intestazione */
+          reportSection.style.display ="block"; /* Rende visibile la sezione dei report */
+  
+          categories[category].forEach(report=> { /* Scorre tutti i report appartenenti alla categoria selezionata */
+              const reportCard =document.createElement("div"); /* Crea un nuovo div per la singola "card" del report */
+              reportCard.classList.add("report-card"); /* Aggiunge la classe "report-card" per lo stile grafico */
+              reportCard.innerHTML =`
+                  <h3>${report.title}</h3>
+                  <p>Anno: ${report.year}</p>
+                  <a href="${report.link}" download>Scarica PDF</a>`; /* Inserisce all'interno del div il titolo, l'anno e il link per scaricare il report */
+              reportList.appendChild(reportCard); /* Aggiunge la card alla lista dei report visibili nella pagina */
+          });
+  
+          const downloadLinks =reportList.querySelectorAll("a[download]"); /* Seleziona tutti i link con attributo download presenti nella lista */
+          downloadLinks.forEach(link =>{ /* Per ciascun link di download... */
+              link.addEventListener("click", ()=> { /* Aggiunge un evento al click del link */
+              nextPlantStage(); /* Al click, cambia lo stadio della pianta (emoji) */
+              alert("Innaffiaci ancora");
+              });
+          });
+      }
+  
+      searchInput.addEventListener("input", ()=> displayCategories(searchInput.value)); /* Esegue la funzione "displayCategories" usando il valore inserito in searchInput, per mostrare solo le categorie cercate*/
+  
+      displayCategories(); /* Esegue la funzione "displayCategories"*/
+  });
+  
+  const searchInputHeader =document.getElementById("searchInputHeader"); /* Seleziona l'elemento con id "searchInputHeader" e lo mette nella costante "searchInputHeader"*/
+  const searchButton= document.getElementById("searchButton"); /* Seleziona l'elemento con id "searchButton" e lo mette nella costante "searchButton"*/
+  const userButton =document.getElementById("userButton"); /* Seleziona l'elemento con id "userButton" e lo mette nella costante "userButton"*/
+  
+  // ENTER dalla tastiera
+  searchInputHeader.addEventListener("keydown", function (event) { /* Aggiunge un evento alla pressione di un tasto nell'input con id "searchInputHeader" */
+    if (event.key === "Enter") { /* Se il tasto premuto è "Enter" */
+      event.preventDefault(); /* Previene il comportamento predefinito del tasto Enter (es. invio di un form) */
+      eseguiRicerca(); /* Esegue la funzione "eseguiRicerca", che contiene la logica di ricerca desiderata */
+    }
+  });
+  
+  // Click sul bottone
+  searchButton.addEventListener("click", eseguiRicerca); /* Esegue la funzione "eseguiRicerca" al click sul pulsante di ricerca*/
+  
+  
+  function eseguiRicerca() { /* Funzione che gestisce la ricerca quando viene premuto "Invio" nell'input */
+    const query = searchInputHeader.value.trim(); /* Prende il valore dell'input "searchInputHeader" e rimuove gli spazi all'inizio e alla fine */
+  
+    if (query) { /* Se la stringa non è vuota... */
+      window.location.href = `https://www.a2a.it/casa/ricerca?keys=${query}`; /* Reindirizza l'utente alla pagina di ricerca del sito A2A con la query inserita */
+    } else { /* Altrimenti, se l'input è vuoto... */
+      alert("Inserisci qualcosa da cercare!"); /* Mostra un messaggio di avviso all'utente */
+    }
+  }
+  
+  </script> <!-- Chiusura della parte JavaScript-->
+  </body> <!-- Chiusura del corpo della pagina-->
+  </html> <!-- Chiusura del documento-->
